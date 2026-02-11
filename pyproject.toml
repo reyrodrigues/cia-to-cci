@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cia-to-cci"
-version = "0.1.3"
+version = "0.1.4"
 description = "Python library for converting Nintendo 3DS CIA files to decrypted CCI files"
 readme = "README.md"
 authors = [

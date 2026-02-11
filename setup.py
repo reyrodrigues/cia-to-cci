@@ -102,7 +102,7 @@ if readme_path.exists():
 
 setup(
     name='cia-to-cci',
-    version='0.1.3',
+    version='0.1.4',
     author='Rey Rodrigues',
     description='Python library for converting Nintendo 3DS CIA files to decrypted CCI files',
     long_description=long_description,
