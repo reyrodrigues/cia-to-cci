@@ -15,6 +15,8 @@ jobs:
         include:
           - os: ubuntu-latest
             arch: x86_64
+          - os: windows-latest
+            arch: AMD64
           - os: macos-latest
             arch: x86_64
           - os: macos-latest
@@ -32,9 +34,10 @@ jobs:
           CIBW_SKIP: pp* *-musllinux_* *-win32 *-manylinux_i686
           CIBW_ARCHS_MACOS: ${{ matrix.os == 'macos-latest' && matrix.arch || '' }}
           CIBW_ARCHS_LINUX: ${{ matrix.os == 'ubuntu-latest' && matrix.arch || '' }}
+          CIBW_ARCHS_WINDOWS: ${{ matrix.os == 'windows-latest' && matrix.arch || '' }}
           # Clean CMake cache and ensure submodules are initialized
           CIBW_BEFORE_BUILD: |
-            find . -name "CMakeCache.txt" -delete
+            python -c "import sys, os; os.system('del /S /Q CMakeCache.txt 2>nul' if sys.platform == 'win32' else 'find . -name CMakeCache.txt -delete')"
             git submodule update --init --recursive
             python -c "import sys; print(f'Python version: {sys.version}')"
 

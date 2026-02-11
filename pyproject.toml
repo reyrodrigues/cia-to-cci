@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cia-to-cci"
-version = "0.1.5"
+version = "0.1.6"
 description = "Python library for converting Nintendo 3DS CIA files to decrypted CCI files"
 readme = "README.md"
 authors = [
@@ -23,6 +23,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -46,10 +47,13 @@ where = ["src"]
 
 [tool.cibuildwheel]
 build = "cp38-* cp39-* cp310-* cp311-* cp312-*"
-skip = "pp* *-musllinux_* *-win32 *-manylinux_i686"
+skip = "pp* *-musllinux_* *-manylinux_i686"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64"]
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64"]

@@ -61,6 +61,16 @@ class CMakeBuild(build_ext):
                 '-DCMAKE_CXX_FLAGS=-fPIC',
                 '-DCMAKE_C_FLAGS=-fPIC',
             ]
+        elif sys.platform == 'win32':
+            # Windows-specific settings
+            cmake_args += [
+                '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE={}'.format(extdir.replace('\\', '/')),
+            ]
+            # Use Release configuration for Windows
+            if self.debug:
+                build_args += ['--config', 'Debug']
+            else:
+                build_args = ['--config', 'Release'] + build_args
 
         # Add parallel build support
         if hasattr(self, 'parallel') and self.parallel:
@@ -99,7 +109,7 @@ if readme_path.exists():
 
 setup(
     name='cia-to-cci',
-    version='0.1.5',
+    version='0.1.6',
     author='Rey Rodrigues',
     description='Python library for converting Nintendo 3DS CIA files to decrypted CCI files',
     long_description=long_description,

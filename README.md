@@ -7,7 +7,7 @@ A Python library with C/C++ bindings for converting Nintendo 3DS CIA (CTR Import
 - **Zero External Dependencies**: All tools (ctrtool, makerom) are statically linked into Python extension modules
 - **Full Decryption Support**: Extracts and decrypts CXI components using AES keys
 - **Native Performance**: C/C++ implementation with Python bindings via pybind11
-- **Cross-Platform**: Works on macOS and Linux
+- **Cross-Platform**: Works on macOS, Linux, and Windows
 - **Clean Python API**: High-level interface for easy integration
 - **Low-Level Access**: Direct access to ctrtool and makerom functionality
 
@@ -27,10 +27,10 @@ The conversion process:
 
 ### System Requirements
 - **Python**: 3.8 or higher
-- **Platform**: macOS or Linux
+- **Platform**: macOS, Linux, or Windows
 - **Build Tools** (for building from source):
-  - CMake 3.15+
-  - C++17 compatible compiler (GCC 7+, Clang 5+)
+  - CMake 3.18+
+  - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2019+)
   - Python development headers
 
 ### AES Keys (Required)
@@ -183,6 +183,11 @@ brew install cmake python3
 sudo apt-get install cmake python3-dev build-essential
 ```
 
+**Windows:**
+- Install [Visual Studio 2019 or later](https://visualstudio.microsoft.com/) with C++ build tools
+- Install [CMake](https://cmake.org/download/)
+- Python 3.8+ from [python.org](https://www.python.org/)
+
 ### Build Steps
 
 ```bash
@@ -192,7 +197,7 @@ cd cia-to-cci
 
 # Create virtual environment (recommended)
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate.bat
 
 # Install in development mode
 pip install -e .
@@ -260,6 +265,13 @@ Install Python development headers:
 ```bash
 sudo apt-get install python3-dev
 ```
+
+### Build fails on Windows
+
+Make sure you have:
+- Visual Studio 2019 or later with C++ build tools installed
+- CMake in your PATH
+- Run the build from a Visual Studio Developer Command Prompt
 
 ### ImportError when importing module
 
