@@ -315,7 +315,6 @@ This project incorporates code from [Project_CTR](https://github.com/3DSGuy/Proj
 
 - **3DSGuy, applestash, and Jakcron** for the original ctrtool and makerom implementations
 - **Project_CTR contributors** for maintaining the tools
-- **Nintendo** for the 3DS platform
 
 ---
 
