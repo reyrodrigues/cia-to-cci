@@ -70,11 +70,8 @@ class CMakeBuild(build_ext):
             import multiprocessing
             build_args += [f'-j{multiprocessing.cpu_count()}']
 
-        # Set version info
-        env = os.environ.copy()
-        env['CXXFLAGS'] = f"{env.get('CXXFLAGS', '')} -DVERSION_INFO=\\\"{self.distribution.get_version()}\\\""
-
         # Create build directory
+        env = os.environ.copy()
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
 
@@ -102,7 +99,7 @@ if readme_path.exists():
 
 setup(
     name='cia-to-cci',
-    version='0.1.4',
+    version='0.1.5',
     author='Rey Rodrigues',
     description='Python library for converting Nintendo 3DS CIA files to decrypted CCI files',
     long_description=long_description,
