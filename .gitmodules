@@ -1,0 +1,3 @@
+[submodule "native/project_ctr"]
+	path = native/project_ctr
+	url = https://github.com/3DSGuy/Project_CTR

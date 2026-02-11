@@ -1,0 +1,23 @@
+# Include the license and readme
+include LICENSE
+include README.md
+
+# Include CMake files
+include CMakeLists.txt
+recursive-include native *.txt *.cmake CMakeLists.txt
+
+# Include C/C++ source files
+recursive-include native/ctrtool_wrapper *.h *.cpp
+recursive-include native/makerom_wrapper *.h *.c
+recursive-include src/cia_to_cci/_bindings *.cpp *.h
+
+# Include Project_CTR submodule sources
+recursive-include native/project_ctr *.h *.c *.cpp *.hpp
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude *.o
+global-exclude *.so
+global-exclude *.a
+global-exclude __pycache__
+global-exclude .git*
