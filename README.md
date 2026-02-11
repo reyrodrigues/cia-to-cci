@@ -68,6 +68,33 @@ pytest tests/
 
 ## Usage
 
+### Command-Line Interface
+
+After installation, you can use the `cia-to-cci` command:
+
+```bash
+# Basic usage - converts game.cia to game.cci
+cia-to-cci game.cia
+
+# Specify output path
+cia-to-cci game.cia -o output.cci
+
+# Use custom AES keys file
+cia-to-cci game.cia --keys /path/to/aes_keys.txt
+
+# Keep temporary files for debugging
+cia-to-cci game.cia --keep-temp
+
+# Show help
+cia-to-cci --help
+```
+
+You can also run it as a Python module:
+
+```bash
+python -m cia_to_cci game.cia
+```
+
 ### Python API
 
 #### Basic Conversion
