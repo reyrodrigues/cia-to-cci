@@ -66,6 +66,36 @@ pip install -e .
 pytest tests/
 ```
 
+### Docker (Windows & Cross-Platform)
+
+If you're on Windows or prefer not to install build tools, you can use Docker:
+
+```bash
+# Build the image
+docker build -t cia-to-cci https://github.com/reyrodrigues/cia-to-cci.git
+
+# Convert a CIA file (mount your keys and working directory)
+docker run --rm \
+  -v /path/to/aes_keys.txt:/root/.3ds/aes_keys.txt \
+  -v $(pwd):/data \
+  cia-to-cci game.cia -o game.cci
+```
+
+On Windows, a convenience batch file is included. First build the image, then place your keys at `%USERPROFILE%\.3ds\aes_keys.txt`:
+
+```cmd
+cia-to-cci.bat game.cia
+cia-to-cci.bat game.cia -o output.cci
+```
+
+Or run Docker directly (PowerShell):
+```powershell
+docker run --rm `
+  -v C:\path\to\aes_keys.txt:/root/.3ds/aes_keys.txt `
+  -v ${PWD}:/data `
+  cia-to-cci game.cia -o game.cci
+```
+
 ## Usage
 
 ### Command-Line Interface
