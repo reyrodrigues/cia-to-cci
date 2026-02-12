@@ -2,12 +2,74 @@
 
 A Python library with C/C++ bindings for converting Nintendo 3DS CIA (CTR Importable Archive) files to decrypted CCI (CTR Cart Image) files.
 
+## Quick Start
+
+### AES Keys (Required)
+
+This tool requires Nintendo 3DS AES keys for decryption. You must provide your own keys file. This project does **not** include or provide AES keys — you must obtain them legally through your own means.
+
+### macOS
+
+```bash
+pip install cia-to-cci
+
+# Place your keys file
+mkdir -p ~/.3ds && cp /path/to/aes_keys.txt ~/.3ds/aes_keys.txt
+
+# Convert
+cia-to-cci game.cia
+```
+
+### Linux
+
+```bash
+pip install cia-to-cci
+
+# Place your keys file
+mkdir -p ~/.3ds && cp /path/to/aes_keys.txt ~/.3ds/aes_keys.txt
+
+# Convert
+cia-to-cci game.cia
+```
+
+### Windows (via Docker)
+
+Native Windows builds are not yet supported. Use Docker instead:
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. Place your keys file at `%USERPROFILE%\.3ds\aes_keys.txt`
+3. Download [`cia-to-cci.bat`](https://raw.githubusercontent.com/reyrodrigues/cia-to-cci/main/cia-to-cci.bat) to a folder in your PATH
+4. Run:
+
+```cmd
+cia-to-cci.bat game.cia
+cia-to-cci.bat game.cia -o output.cci
+cia-to-cci.bat game.cia --keys C:\path\to\aes_keys.txt
+```
+
+The batch file automatically builds the Docker image on first run. No other setup needed.
+
+### Docker (any platform)
+
+```bash
+# Build the image
+docker build -t cia-to-cci https://github.com/reyrodrigues/cia-to-cci.git
+
+# Convert a CIA file
+docker run --rm \
+  -v /path/to/aes_keys.txt:/root/.3ds/aes_keys.txt \
+  -v $(pwd):/data \
+  cia-to-cci game.cia -o game.cci
+```
+
+---
+
 ## Features
 
 - **Zero External Dependencies**: All tools (ctrtool, makerom) are statically linked into Python extension modules
 - **Full Decryption Support**: Extracts and decrypts CXI components using AES keys
 - **Native Performance**: C/C++ implementation with Python bindings via pybind11
-- **Cross-Platform**: Works on macOS, Linux, and Windows
+- **Cross-Platform**: Works on macOS, Linux, and Windows (via Docker)
 - **Clean Python API**: High-level interface for easy integration
 - **Low-Level Access**: Direct access to ctrtool and makerom functionality
 
@@ -23,84 +85,9 @@ The conversion process:
 5. **Rebuilds** decrypted CXI with all components
 6. **Creates** final decrypted CCI file
 
-## Requirements
-
-### System Requirements
-- **Python**: 3.8 or higher
-- **Platform**: macOS, Linux, or Windows
-- **Build Tools** (for building from source):
-  - CMake 3.18+
-  - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2019+)
-  - Python development headers
-
-### AES Keys (Required)
-
-This tool requires Nintendo 3DS AES keys for decryption. You must provide your own keys at:
-
-```
-~/.3ds/aes_keys.txt
-```
-
-**Important**: This project does NOT include or provide AES keys. You must obtain them legally through your own means.
-
-## Installation
-
-### From Source
-
-```bash
-# Clone the repository with submodules
-git clone --recursive https://github.com/reyrodrigues/cia-to-cci.git
-cd cia-to-cci
-
-# Build and install
-pip install .
-```
-
-### Development Installation
-
-```bash
-# Install in editable mode
-pip install -e .
-
-# Run tests
-pytest tests/
-```
-
-### Docker (Windows & Cross-Platform)
-
-If you're on Windows or prefer not to install build tools, you can use Docker:
-
-```bash
-# Build the image
-docker build -t cia-to-cci https://github.com/reyrodrigues/cia-to-cci.git
-
-# Convert a CIA file (mount your keys and working directory)
-docker run --rm \
-  -v /path/to/aes_keys.txt:/root/.3ds/aes_keys.txt \
-  -v $(pwd):/data \
-  cia-to-cci game.cia -o game.cci
-```
-
-On Windows, a convenience batch file is included. First build the image, then place your keys at `%USERPROFILE%\.3ds\aes_keys.txt`:
-
-```cmd
-cia-to-cci.bat game.cia
-cia-to-cci.bat game.cia -o output.cci
-```
-
-Or run Docker directly (PowerShell):
-```powershell
-docker run --rm `
-  -v C:\path\to\aes_keys.txt:/root/.3ds/aes_keys.txt `
-  -v ${PWD}:/data `
-  cia-to-cci game.cia -o game.cci
-```
-
 ## Usage
 
 ### Command-Line Interface
-
-After installation, you can use the `cia-to-cci` command:
 
 ```bash
 # Basic usage - converts game.cia to game.cci
@@ -201,8 +188,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
 ### Prerequisites
 
-Install build dependencies:
-
 **macOS:**
 ```bash
 brew install cmake python3
@@ -213,11 +198,6 @@ brew install cmake python3
 sudo apt-get install cmake python3-dev build-essential
 ```
 
-**Windows:**
-- Install [Visual Studio 2019 or later](https://visualstudio.microsoft.com/) with C++ build tools
-- Install [CMake](https://cmake.org/download/)
-- Python 3.8+ from [python.org](https://www.python.org/)
-
 ### Build Steps
 
 ```bash
@@ -227,7 +207,7 @@ cd cia-to-cci
 
 # Create virtual environment (recommended)
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate.bat
+source venv/bin/activate
 
 # Install in development mode
 pip install -e .
@@ -260,7 +240,8 @@ cia_to_cci/
 │   ├── project_ctr/           # Git submodule: Project_CTR
 │   ├── ctrtool_wrapper/       # C++ wrapper for ctrtool
 │   └── makerom_wrapper/       # C wrapper for makerom
-├── tests/                     # Unit and integration tests
+├── Dockerfile                 # Docker image for Windows/cross-platform use
+├── cia-to-cci.bat             # Windows convenience wrapper
 ├── CMakeLists.txt            # Root build configuration
 └── pyproject.toml            # Python package metadata
 ```
@@ -295,13 +276,6 @@ Install Python development headers:
 ```bash
 sudo apt-get install python3-dev
 ```
-
-### Build fails on Windows
-
-Make sure you have:
-- Visual Studio 2019 or later with C++ build tools installed
-- CMake in your PATH
-- Run the build from a Visual Studio Developer Command Prompt
 
 ### ImportError when importing module
 
